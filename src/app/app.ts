@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
   imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class App {
   counter = 0;
@@ -16,10 +16,14 @@ export class App {
       console.log('setInterval counter', this.counter);
     }, 1000);
 
-    setInterval(() => {
+    // setInterval(() => {
+    //   this.cdr.detectChanges();
+    // }, 5000)
+  }
 
-      this.cdr.detectChanges();
-    }, 5000)
+  calculateValue() {
+    console.log('calculateValue value', );
+    return 42;
   }
 
   doNothing(): void {
