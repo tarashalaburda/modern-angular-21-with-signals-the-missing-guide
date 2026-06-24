@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { mySignal } from './my-signal';
+import { MySignal, mySignal } from './my-signal';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +12,18 @@ export class App {
   // readonly secondSignal = signal<string>('Signal');
 
   // for test
-
   readonly firstSignal = mySignal<number>(42);
   readonly secondSignal = mySignal<string>('Signal');
 
   constructor() {
     console.log('firstSignal', this.firstSignal());
+  }
+
+  setSignal() {
+    this.firstSignal.set(10);
+  }
+
+  updateSignal() {
+    this.firstSignal.update(value => value + 1);
   }
 }
