@@ -7,7 +7,7 @@ import { MySignal, mySignal } from './my-signal';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-class App {
+export class App {
   readonly firstSignal = signal<number>(42);
   readonly secondSignal = signal<string>('Signal');
   readonly thirdSignal = signal<number>(10);
@@ -30,5 +30,3 @@ class App {
     this.firstSignal.update((value) => value + 1);
   }
 }
-
-export default App;
