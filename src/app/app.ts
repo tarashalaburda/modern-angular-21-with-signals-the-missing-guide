@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { MySignal, mySignal } from './my-signal';
 
 @Component({
@@ -19,11 +19,15 @@ export class App {
   readonly derived = computed(() => this.firstSignal() + this.thirdSignal());
 
   constructor() {
-    console.log('firstSignal', this.firstSignal());
+    effect(() => {
+      console.log('The first signal value is: ', this.firstSignal());
+      console.log('The second signal value is: ', this.secondSignal());
+    });
   }
 
   setSignal() {
     this.firstSignal.set(10);
+    this.firstSignal.update(value => value + 1);
   }
 
   updateSignal() {
