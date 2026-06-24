@@ -1,36 +1,48 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, linkedSignal, signal } from '@angular/core';
 import { MySignal, mySignal } from './my-signal';
+import { PRODUCTS } from './products';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [JsonPipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  readonly firstSignal = signal<number>(42);
-  readonly secondSignal = signal<string>('Signal');
-  readonly thirdSignal = signal<number>(10);
+  readonly products = signal(['Apple', 'Banana', 'Chery']);
 
-  // for test
-  // readonly firstSignal = mySignal<number>(42);
-  // readonly secondSignal = mySignal<string>('Signal');
+  readonly selectedProduct = linkedSignal<string[], string>({
+    source: this.products,
+    computation: (prod, prev) => {
+      if (!prev) return prod[0];
+      if (prod.includes(prev.value)) return prev.value;
 
-  readonly derived = computed(() => this.firstSignal() + this.thirdSignal());
+      return prod[0];
+    },
+  });
 
-  constructor() {
-    effect(() => {
-      console.log('The first signal value is: ', this.firstSignal());
-      console.log('The second signal value is: ', this.secondSignal());
+  addProduct() {
+    this.products.update((prods) => [...prods, PRODUCTS[prods.length]]);
+  }
+
+  removeProduct() {
+    this.products.update((prods) => prods.slice(0, -1));
+  }
+
+  nextProduct() {
+    this.selectedProduct.update((selected) => {
+      const index = this.products().indexOf(selected);
+
+      return this.products()[index + (1 % this.products().length)];
     });
   }
 
-  setSignal() {
-    this.firstSignal.set(10);
-    this.firstSignal.update(value => value + 1);
-  }
+  previousProduct() {
+    this.selectedProduct.update((selected) => {
+      const index = this.products().indexOf(selected);
 
-  updateSignal() {
-    this.firstSignal.update((value) => value + 1);
+      return this.products()[index - 1 + (this.products().length % this.products().length)];
+    });
   }
 }
