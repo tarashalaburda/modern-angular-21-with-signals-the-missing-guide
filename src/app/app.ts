@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, firstValueFrom, map } from 'rxjs';
-
-type Options = Record<string, string>;
+import { Component, signal } from '@angular/core';
+import { mySignal } from './my-signal';
 
 @Component({
   selector: 'app-root',
@@ -10,38 +8,15 @@ type Options = Record<string, string>;
   styleUrl: './app.scss',
 })
 export class App {
-  readonly a$ = new BehaviorSubject<number>(1);
-  readonly b$ = new BehaviorSubject<number>(2);
+  // readonly firstSignal = signal<number>(42);
+  // readonly secondSignal = signal<string>('Signal');
 
-  readonly sum$ = combineLatest([this.a$, this.b$]).pipe(map(([a, b]) => a + b));
+  // for test
 
-  async incrementA() {
-    // only increment A if A + B is less than 10
-
-    const sum = await firstValueFrom(this.sum$);
-
-    console.log('sum -', sum);
-
-    if (sum < 10) {
-      this.a$.next(this.a$.value + 1);
-    }
-  }
-
-  readonly option$ = new BehaviorSubject<Options>({ r: 'Red', g: 'Green', b: 'Blue' });
-
-  readonly selectedKey$ = new BehaviorSubject<string>('b');
-
-  readonly selectedValue$ = combineLatest([this.option$, this.selectedKey$]).pipe(
-    debounceTime(0),
-    map(([options, key]) => options[key]),
-  );
-
-  switchOptions() {
-    this.option$.next({ m: 'Magenta', y: 'Yellow', c: 'Cyan' });
-    this.selectedKey$.next('c');
-  }
+  readonly firstSignal = mySignal<number>(42);
+  readonly secondSignal = mySignal<string>('Signal');
 
   constructor() {
-    this.selectedValue$.subscribe(console.log);
+    console.log('firstSignal', this.firstSignal());
   }
 }
