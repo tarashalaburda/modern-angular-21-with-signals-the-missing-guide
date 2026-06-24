@@ -1,19 +1,31 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { interval } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
+
+type Options = Record<string, string>;
 
 @Component({
   selector: 'app-root',
-  imports: [AsyncPipe],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  readonly counter$ = interval(1000);
+  readonly option$ = new BehaviorSubject<Options>({ r: 'Red', g: 'Green', b: 'Blue' });
 
-  calculateValue() {
-    console.log('calculateValue value');
-    return 42;
+  readonly selectedKey$ = new BehaviorSubject<string>('b');
+
+  readonly selectedValue$ = combineLatest([this.option$, this.selectedKey$]).pipe(
+    debounceTime(0),
+    map(([options, key]) => options[key])
+  );
+
+  switchOptions() {
+    this.option$.next({ m: 'Magenta', y: 'Yellow', c: 'Cyan' });
+    this.selectedKey$.next('c');
+  }
+
+  constructor() {
+    this.selectedValue$.subscribe(console.log);
   }
 }
