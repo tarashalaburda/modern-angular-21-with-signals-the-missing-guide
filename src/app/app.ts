@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject, combineLatest, debounceTime, firstValueFrom, map } from 'rxjs';
 
 type Options = Record<string, string>;
@@ -8,7 +8,6 @@ type Options = Record<string, string>;
   imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   readonly a$ = new BehaviorSubject<number>(1);
