@@ -14,9 +14,12 @@ export class App {
   readonly xLarge = computed(() => this.x() > 12)
 
   constructor() {
-    effect(() => {
+    effect(async () => {
       if (this.x() > 12) {
         console.log('x is greater than 12');
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
         this.isLarge.set(true);
       }
     });
