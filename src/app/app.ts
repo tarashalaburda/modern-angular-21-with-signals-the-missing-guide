@@ -1,4 +1,7 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { ApiService } from './api.service';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,25 +10,31 @@ import { Component, computed, effect, signal } from '@angular/core';
   styleUrl: './app.scss',
 })
 export class App {
-  readonly x = signal(10);
+  readonly api = inject(ApiService);
 
-  readonly isLarge = signal(false);
+  readonly number = signal(10);
 
-  readonly xLarge = computed(() => this.x() > 12)
+  readonly number$ = toObservable(this.number);
 
-  constructor() {
-    effect(async () => {
-      if (this.x() > 12) {
-        console.log('x is greater than 12');
+  readonly results$ = this.number$.pipe(
+    switchMap((number) => this.api.getPrimeFactors(number))
+  );
 
-        await new Promise(resolve => setTimeout(resolve, 100));
+  readonly primeFactors = toSignal(this.results$, {
+    initialValue: [],
+  });
 
-        this.isLarge.set(true);
-      }
-    });
+  increase() {
+    this.number.update((n) => n + 1);
   }
 
-  incrementX() {
-    this.x.update((v) => v + 1);
+  decrease() {
+    this.number.update((n) => Math.max(n - 1, 3));
+  }
+
+  constructor() {
+    this.number$.subscribe((n) => {
+      console.log('Number changed to', n);
+    });
   }
 }
