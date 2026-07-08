@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { Counter } from './components/counter/counter';
 
 @Component({
