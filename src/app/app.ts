@@ -34,7 +34,14 @@ export class App {
 
   constructor() {
     this.number$.subscribe((n) => {
-      console.log('Number changed to', n);
+      console.log('Observable subscription 1 ', n);
     });
+
+    setTimeout(() => {
+      console.log('Creating 2nd Subscription ');
+      this.number$.subscribe((n) => {
+        console.log('Observable subscription 2 ', n);
+      });
+    }, 5000);
   }
 }
