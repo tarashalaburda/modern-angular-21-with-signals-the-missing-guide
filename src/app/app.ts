@@ -1,16 +1,28 @@
-import { Component } from '@angular/core';
-import { Counter } from './components/counter/counter';
+import { Component, computed, effect, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  imports: [Counter],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  showCounter = false;
+  readonly x = signal(10);
 
-  toggleCounter() {
-    this.showCounter = !this.showCounter;
+  readonly isLarge = signal(false);
+
+  readonly xLarge = computed(() => this.x() > 12)
+
+  constructor() {
+    effect(() => {
+      if (this.x() > 12) {
+        console.log('x is greater than 12');
+        this.isLarge.set(true);
+      }
+    });
+  }
+
+  incrementX() {
+    this.x.update((v) => v + 1);
   }
 }

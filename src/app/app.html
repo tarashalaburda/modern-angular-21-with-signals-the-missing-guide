@@ -1,5 +1,4 @@
-<button (click)="toggleCounter()">Toggle Counter</button>
+<h1>X = {{ x() }}</h1>
+<h2>isLarge = {{ xLarge() }}</h2>
 <hr>
-@if(showCounter) {
-  <app-counter></app-counter>
-}
+<button (click)="incrementX()">Inc</button>
