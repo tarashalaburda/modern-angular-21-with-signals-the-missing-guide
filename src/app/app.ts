@@ -1,4 +1,13 @@
-import { Component, signal, viewChild, viewChildren, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  OnInit,
+  signal,
+  viewChild,
+  viewChildren,
+  ViewContainerRef,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RATES } from './components/currency-converter/rates';
 import { CurrencyConverter } from './components/currency-converter/currency-converter';
@@ -9,7 +18,7 @@ import { OptionSelector } from './components/option-selector/option-selector';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements AfterViewInit, OnInit {
   // @ViewChild(CurrencyConverter) currencyConverter?: CurrencyConverter;
 
   currentConverters = viewChildren(CurrencyConverter);
@@ -25,6 +34,23 @@ export class App {
     for (const converter of this.currentConverters()) {
       converter.stopRefresh();
     }
+  }
+
+  constructor() {
+    // console.log('App constructor view child required signal value is ', this.currencyConverter());
+    effect(() => {
+      console.log('effect', this.currencyConverter());
+    });
+  }
+  ngOnInit(): void {
+    console.log('!!! ngOnInit');
+  }
+
+  ngAfterViewInit(): void {
+    console.log(
+      'App ngAfterViewInit view child required signal value is ',
+      this.currencyConverter(),
+    );
   }
 
   readonly currencies = Object.keys(RATES);
