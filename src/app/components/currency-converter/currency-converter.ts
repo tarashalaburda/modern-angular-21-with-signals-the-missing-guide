@@ -1,7 +1,7 @@
-import { Component, computed, DestroyRef, inject, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RATES } from './rates';
-import { BehaviorSubject, interval, map, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, interval, map, startWith, Subject, switchMap, takeUntil } from 'rxjs';
 import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -11,19 +11,22 @@ import { outputFromObservable, takeUntilDestroyed } from '@angular/core/rxjs-int
   styleUrl: './currency-converter.scss',
 })
 export class CurrencyConverter {
-  private destroyRef = inject(DestroyRef);
-
   readonly manualRefresh$ = new BehaviorSubject<void>(undefined);
 
+  private readonly stop$ = new Subject<void>();
+
+  stopRefresh(): void {
+    this.stop$.next();
+  }
+
   readonly refreshRequired$ = this.manualRefresh$.pipe(
-    switchMap(() =>
-      interval(5000).pipe(
-        startWith(0),
-        map(() => {}),
-        takeUntilDestroyed(this.destroyRef),
-      ),
-    ),
+    switchMap(() => interval(2000).pipe(startWith(0))),
+    map(() => {}),
+    takeUntilDestroyed(),
+    takeUntil(this.stop$),
   );
+
+  // --------------------
 
   readonly amount = input.required<number>();
   readonly currency = input.required<string>();

@@ -13,3 +13,12 @@
   [amount]="amount.value!"
   [currency]="currency()"
   (refreshRequired)="refreshData()"/>
+
+<app-currency-converter
+  [amount]="amount.value!"
+  [currency]="currency()"
+  (refreshRequired)="refreshData()"/>
+
+<div #myRef></div>
+
+<button (click)="stopRefresh()">Stop Refresh Events</button>
