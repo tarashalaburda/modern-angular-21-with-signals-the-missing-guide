@@ -13,4 +13,8 @@ export class App {
 
   amount = new FormControl(100);
   currency = new FormControl('USD');
+
+  refreshData(): void {
+    console.log('🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️');
+  }
 }
