@@ -12,9 +12,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RATES } from './components/currency-converter/rates';
 import { CurrencyConverter } from './components/currency-converter/currency-converter';
 import { OptionSelector } from './components/option-selector/option-selector';
+import { OptionDirective } from './components/option-selector/option.directive';
 @Component({
   selector: 'app-root',
-  imports: [CurrencyConverter, ReactiveFormsModule, OptionSelector],
+  imports: [CurrencyConverter, ReactiveFormsModule, OptionSelector, OptionDirective],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

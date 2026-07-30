@@ -6,18 +6,20 @@
 
 <app-option-selector
   [options]="currencies"
-  [(selected)]="currency"
-/>
+  [(selected)]="currency">
+
+  <span *appOption="let currency" class="currency-option">
+    <img class="currency-icon" [src]="'/icons/' + currency + '.svg'" alt="{{currency}}">
+    {{ currency }}
+  </span>
+
+</app-option-selector>
 
 <app-currency-converter
   [amount]="amount.value!"
   [currency]="currency()"
-  (refreshRequired)="refreshData()"/>
+  (refreshRequired)="refreshData()" />
 
-<app-currency-converter
-  [amount]="amount.value!"
-  [currency]="currency()"
-  (refreshRequired)="refreshData()"/>
 
 <div #myRef></div>
 
