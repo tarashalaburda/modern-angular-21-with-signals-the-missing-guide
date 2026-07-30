@@ -1,26 +1,15 @@
-<h1 appRgb [red]="30" [green]="150" [blue]="30"> Currency Converter</h1>
-<label>Amount</label>
-<input type="number" [formControl]="amount">
+<h1 routerLink="/">Movies App</h1>
 
-<label>Currency</label>
+<div class="movies-list">
+  @for(movie of moviesService.movies(); track movie.id) {
+    <div class="movie"
+         [routerLink]="['movie', movie.id]"
+         routerLinkActive="selected">
+      {{movie.name}}
+    </div>
+  }
+</div>
 
-<app-option-selector
-  [options]="currencies"
-  [(selected)]="currency">
-
-  <span *appOption="let currency" class="currency-option">
-    <img class="currency-icon" [src]="'/icons/' + currency + '.svg'" alt="{{currency}}">
-    {{ currency }}
-  </span>
-
-</app-option-selector>
-
-<app-currency-converter
-  [amount]="amount.value!"
-  [currency]="currency()"
-  (refreshRequired)="refreshData()" />
-
-
-<div #myRef></div>
-
-<button (click)="stopRefresh()">Stop Refresh Events</button>
+<div class="movie-details">
+  <router-outlet/>
+</div>
