@@ -13,9 +13,10 @@ import { RATES } from './components/currency-converter/rates';
 import { CurrencyConverter } from './components/currency-converter/currency-converter';
 import { OptionSelector } from './components/option-selector/option-selector';
 import { OptionDirective } from './components/option-selector/option.directive';
+import { RgbDirective } from './directives/rgb.directive';
 @Component({
   selector: 'app-root',
-  imports: [CurrencyConverter, ReactiveFormsModule, OptionSelector, OptionDirective],
+  imports: [CurrencyConverter, ReactiveFormsModule, OptionSelector, OptionDirective, RgbDirective],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
