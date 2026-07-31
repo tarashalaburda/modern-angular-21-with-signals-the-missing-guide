@@ -5,7 +5,7 @@ import { Question } from '../models/question.model';
   providedIn: 'root',
 })
 export class Exam {
-  readonly questions = signal<Question[]>([
+  readonly #questions = signal<Question[]>([
     {
       caption: 'How much is 4 + 4',
       answers: ['4', '8', '12', '16'],
@@ -23,6 +23,11 @@ export class Exam {
     },
   ]);
 
-  readonly userAnswers = signal<number[]>([]);
-  readonly isBusy = signal<boolean>(false);
+  readonly questions = this.#questions.asReadonly();
+
+  readonly #userAnswers = signal<number[]>([]);
+  readonly userAnswers = this.#userAnswers.asReadonly();
+
+  readonly #isBusy = signal<boolean>(false);
+  readonly isBusy = this.#isBusy.asReadonly();
 }
