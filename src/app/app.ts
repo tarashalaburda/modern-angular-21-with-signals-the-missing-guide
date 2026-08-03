@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Progress } from './components/progress/progress';
 import { Done } from './components/done/done';
 import { QuestionPresenter } from './components/question-presenter/question-presenter';
-import { Question } from './models/question.model';
+import { ExamService } from './services/exam.service';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +11,6 @@ import { Question } from './models/question.model';
   styleUrl: './app.scss',
 })
 export class App {
-  readonly question = signal<Question>({
-    caption: 'How much is 4 + 4?',
-    answers: ['4', '6', '8', '12'],
-    correctAnswerIndex: 2,
-  });
+  readonly store = inject(ExamService);
+
 }
