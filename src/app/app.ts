@@ -12,6 +12,10 @@ export class App {
 
   readonly apiNimber = resource({
     loader: () => this.api.getRandomNumberAsync(),
-    defaultValue: -1
-  })
+    defaultValue: -1,
+  });
+
+  reloadNumber(): void {
+    this.apiNimber.reload();
+  }
 }
