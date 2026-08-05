@@ -18,4 +18,8 @@ export class App {
   reloadNumber(): void {
     this.apiNimber.reload();
   }
+
+  setLocalValue(val: number): void {
+    this.apiNimber.set(val);
+  }
 }
