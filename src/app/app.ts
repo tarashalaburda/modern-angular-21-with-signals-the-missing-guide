@@ -1,16 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { Progress } from './components/progress/progress';
-import { Done } from './components/done/done';
-import { QuestionPresenter } from './components/question-presenter/question-presenter';
-import { ExamService } from './services/exam.service';
+import { Component, inject, resource } from '@angular/core';
+import { Api } from './services/api';
 
 @Component({
   selector: 'app-root',
-  imports: [Progress, Done, QuestionPresenter, Progress],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  readonly store = inject(ExamService);
+  readonly api = inject(Api);
 
+  readonly apiNimber = resource({
+    loader: () => this.api.getRandomNumberAsync(),
+    defaultValue: -1
+  })
 }
