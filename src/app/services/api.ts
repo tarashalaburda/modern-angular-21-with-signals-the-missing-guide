@@ -17,24 +17,33 @@ export class Api {
       }, 3000);
 
       abortSignal?.addEventListener('abort', () => {
-        if (handle ) {
+        if (handle) {
           clearTimeout(handle);
           console.log('Random Number - Canceled!!! ❌❌❌');
         }
-      })
+      });
     });
   }
 
-  mutiplyByFiveAsync(value: number) {
+  mutiplyByFiveAsync(value: number, abortSignal?: AbortSignal) {
     // this function returns the value times 5 after a delay of 3 seconds
 
     console.log('[API] Getting a multiplier for seed', value);
     return new Promise<number>((resolve) => {
-      setTimeout(() => {
+      let handle: number | null = null;
+
+      handle = setTimeout(() => {
         const res = value * 5;
         console.log('[API] Multiplier received', res);
         resolve(res);
       }, 3000);
+
+      abortSignal?.addEventListener('abort', () => {
+        if (handle) {
+          clearTimeout(handle);
+          console.log('mutiplyByFiveAsync - Canceled!!! ❌ ');
+        }
+      })
     });
   }
 }
