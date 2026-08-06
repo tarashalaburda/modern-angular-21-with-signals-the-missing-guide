@@ -1,25 +1,5 @@
-<app-numeric [(value)]="source" label="source" />
-
-<div class="tools">
-  <button (click)="reloadNumber()">Reload Number</button>
-  <button (click)="setLocalValue(myNumberInput.valueAsNumber)">Set Local Value</button>
-  <input type="number" #myNumberInput>
-</div>
-
-<div class="resource-state">
-  @if (apiNimber.error()) {
-    <span class="label">Error</span>
-    <span class="error">{{ apiNimber.error()?.cause }}</span>
-  } @else {
-    <span class="lavel">Value</span>
-    <span class="value">{{ apiNimber.value() }}</span>
-  }
-
-  <span class="label">Status: </span>
-  <span class="status"
-        [attr.data-status]="apiNimber.status()"
-  >{{ apiNimber.status() }}</span>
-  @if (apiNimber.isLoading()) {
-    <div class="busy">Loading...</div>
-  }
-</div>
+<app-header>
+  <app-search-box />
+</app-header>
+<app-books-list />
+<app-book-card />

@@ -1,33 +1,15 @@
-import { Component, inject, resource, signal } from '@angular/core';
-import { Api } from './services/api';
-import { Numeric } from './components/numeric/numeric';
+import { Component } from '@angular/core';
+import { Header } from './components/header/header';
+import { BooksList } from './components/books-list/books-list';
+import { SearchBox } from './components/search-box/search-box';
+import { BookCard } from './components/book-card/book-card';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [Numeric],
+  imports: [CommonModule, FormsModule, BookCard, SearchBox, BooksList, Header],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  readonly api = inject(Api);
-
-  readonly source = signal(50);
-
-  readonly apiNimber = resource({
-    params: () => ({ value: this.source() }),
-    loader: (options) =>
-      this.api.mutiplyByFiveAsync(
-        options.params.value,
-        options.abortSignal,
-      ),
-    defaultValue: -1,
-  });
-
-  reloadNumber(): void {
-    this.apiNimber.reload();
-  }
-
-  setLocalValue(val: number): void {
-    this.apiNimber.set(val);
-  }
-}
+export class App {}
