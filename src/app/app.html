@@ -7,8 +7,14 @@
 </div>
 
 <div class="resource-state">
-  <span class="lavel">Value</span>
-  <span class="value">{{ apiNimber.value() }}</span>
+  @if (apiNimber.error()) {
+    <span class="label">Error</span>
+    <span class="error">{{ apiNimber.error()?.cause }}</span>
+  } @else {
+    <span class="lavel">Value</span>
+    <span class="value">{{ apiNimber.value() }}</span>
+  }
+
   <span class="label">Status: </span>
   <span class="status"
         [attr.data-status]="apiNimber.status()"
