@@ -1,1 +1,5 @@
-<input type="search" placeholder="Search..." [(ngModel)]="keyword" />
+<input type="search"
+       #searchBox
+       placeholder="Search..."
+       [value]="state.keyword()"
+       (input)="state.setKeyword(searchBox.value)" />
